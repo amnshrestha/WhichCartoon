@@ -28,16 +28,15 @@ possibleImage = imagesFound[0]
 
 
 while True:
-
-    
-
-
     # Capture the image from each frame 
     ret, img = webCam.read()
+    # Convert to grayscale
     grayScale = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    # Detect faces
     faces = face_cascade.detectMultiScale(grayScale, scaleFactor=1.5, minNeighbors=5)
     for (x,y,w,h) in faces:
 
+        # Update frame where face was seen
         if(currentFrame < endFrame):
             if(currentFrame % FrameSkip == 0):
                 index = randint(0,len(imagesFound) - 1)
@@ -55,6 +54,7 @@ while True:
         if(y-possibleImage.shape[0]> 0):
             yStart = y-possibleImage.shape[0]
 
+        # Overlay frame image with the cartoon image
         img[yStart:yStart+possibleImage.shape[0], xStartingPosition:xStartingPosition+possibleImage.shape[1]] = possibleImage
 
         # Coordinates for the box with cartoon
@@ -64,7 +64,6 @@ while True:
             xEnd = xStartingPosition + possibleImage.shape[1]
             yEnd = yStart + possibleImage.shape[0]
             cv2.rectangle(img, (xStartingPosition, yStart), (xEnd, yEnd), newColor, newStroke)
-            # cv2.rectangle(img, (xStartingPosition, yStart),(xStartingPosition + possibleImage[1], yStart + possibleImage[0]),newColor, newStroke)
        
         
 
